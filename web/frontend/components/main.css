@@ -35,13 +35,57 @@
   height: 13vh;
 }
 
+.inputContainer {
+  padding: 2vh;
+}
+
 .inputContainer input {
   width: 32vw;
   height: 7vh;
+
+  font-size: 1.1rem;
+}
+
+.inputContainer label {
+  font-size: 1.1rem;
 }
 
 .passwordIcon {
   position: absolute;
   transform: translate(-4vw, 0.5vh);
   cursor: pointer;
+}
+
+.extActions {
+  display: flex;
+  justify-content: space-between;
+  width: 32vw;
+
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  font-weight: 400;
+
+  padding-bottom: 1vh;
+}
+
+.connectButton {
+  background-color: black;
+  color: white;
+
+  border: none;
+  border-radius: 1.5rem;
+
+  font-size: 1.5rem;
+
+  width: 32vw;
+  height: 8vh;
+
+  cursor: pointer;
+
+  margin-bottom: 5vh;
+}
+
+.connectButton:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

@@ -46,6 +46,11 @@ export function OneForm() {
             />
           </div>
         </div>
+        <div className="extActions">
+          <a>Create Account</a>
+          <a>Forgot Password?</a>
+        </div>
+        <button className="connectButton">Connect</button>
       </div>
     </div>
   );
