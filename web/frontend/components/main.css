@@ -52,7 +52,7 @@
 
 .passwordIcon {
   position: absolute;
-  transform: translate(-4vw, 0.5vh);
+  transform: translate(-4vw, 1.3vh);
   cursor: pointer;
 }
 

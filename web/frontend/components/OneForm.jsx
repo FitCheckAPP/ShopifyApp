@@ -43,6 +43,8 @@ export function OneForm() {
                 e.preventDefault();
                 setPasswordShown(!passwordShown);
               }}
+              color="rgba(0, 0, 0, 0.5)"
+              size={25}
             />
           </div>
         </div>
