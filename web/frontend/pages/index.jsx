@@ -1,7 +1,15 @@
 import { Page } from "@shopify/polaris";
 
-import { Form } from "../components";
+import { OneForm } from "../components";
+
+import "./index.css";
 
 export default function HomePage() {
-  return <Page>This is a test.</Page>;
+  return (
+    <Page>
+      <div id="rootContainer">
+        <OneForm />
+      </div>
+    </Page>
+  );
 }
