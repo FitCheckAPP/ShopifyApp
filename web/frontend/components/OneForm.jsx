@@ -21,12 +21,16 @@ export function OneForm() {
       <div className="formContainer">
         <img src={logoImage} />
         <div className="inputContainer">
-          <label>Email address</label>
+          <label>
+            <strong>Email address</strong>
+          </label>
           <br />
           <input type="text" onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="inputContainer">
-          <label>Password</label>
+          <label>
+            <strong>Password</strong>
+          </label>
           <br />
           <div className="passwordInputContainer">
             <input

@@ -22,14 +22,21 @@
   justify-content: center;
 
   width: 62vw;
+
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-top: 1vh;
 }
 
 .formContainer img {
-  width: 25vw;
+  margin-top: 5vh;
+
+  width: 23vw;
+  height: 13vh;
 }
 
 .inputContainer input {
-  width: 30vw;
+  width: 32vw;
   height: 7vh;
 }
 
