@@ -50,7 +50,8 @@ export function PolicyInfo() {
           </label>
           <Checkbox
             type="checkbox"
-            onChange={(e) => {
+            checked={permsBox}
+            onClick={(e) => {
               e.preventDefault();
               setPermsBox(!permsBox);
             }}
@@ -62,7 +63,8 @@ export function PolicyInfo() {
           </label>
           <Checkbox
             type="checkbox"
-            onChange={(e) => {
+            checked={comBox}
+            onClick={(e) => {
               e.preventDefault();
               setComBox(!comBox);
             }}
@@ -78,24 +80,16 @@ export function PolicyInfo() {
           >
             back
           </Button>
+
           <Button
             size="large"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSave();
-            }}
-          >
-            save
-          </Button>
-          <Button
-            size="large"
-            primary="true"
+            primary={permsBox && comBox ? "true" : "false"}
             onClick={(e) => {
               e.preventDefault();
               handleSubmit();
             }}
           >
-            next
+            submit
           </Button>
         </div>
       </div>
