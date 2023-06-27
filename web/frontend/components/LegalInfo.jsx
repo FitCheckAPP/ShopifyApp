@@ -24,7 +24,7 @@ export function LegalInfo() {
   };
 
   const handleSubmit = () => {
-    console.log("Submitted");
+    navigate("/policy-info");
   };
 
   const handleBack = () => {
