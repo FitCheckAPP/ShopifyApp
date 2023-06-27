@@ -3,10 +3,11 @@ import "./main.css";
 import { logoImage } from "../assets";
 import { useState } from "react";
 
-import { Button, ButtonGroup } from "@shopify/polaris";
+import { Button } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 
 export function ExtraInfo() {
+  const [name, setName] = useState("");
   const [store, setStore] = useState("");
   const [storeURL, setStoreURL] = useState("");
   const [storeLocation, setStoreLocation] = useState("");
@@ -29,6 +30,15 @@ export function ExtraInfo() {
       <h1>Store Information</h1>
       <div className="formContainer">
         <img src={logoImage} style={{ width: "15vw", height: "10vh" }} />
+        <div className="inputContainer">
+          <label>Official Company Name</label>
+          <br />
+          <input
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            style={{ width: "55vw", height: "6vh" }}
+          />
+        </div>
         <div className="inputContainer">
           <label>Store Name</label>
           <br />
