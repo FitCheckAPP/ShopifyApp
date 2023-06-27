@@ -20,7 +20,9 @@ export function ExtraInfo() {
     // TODO: Add fetch logic
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    navigate("/legal-info");
+  };
 
   return (
     <div className="mainContainer">
@@ -86,8 +88,23 @@ export function ExtraInfo() {
           />
         </div>
         <div className="extActions">
-          <Button size="large">save</Button>
-          <Button size="large" primary="true">
+          <Button
+            size="large"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSave();
+            }}
+          >
+            save
+          </Button>
+          <Button
+            size="large"
+            primary="true"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
             next
           </Button>
         </div>
