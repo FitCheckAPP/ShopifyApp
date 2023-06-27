@@ -38,6 +38,11 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
+// ! Routes here
+app.post("/api/login", async (_req, res) => {
+  res.status(200).send("logged in");
+});
+
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 

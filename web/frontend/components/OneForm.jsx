@@ -3,12 +3,21 @@ import "./main.css";
 
 import { BiShow } from "react-icons/bi";
 import { logoImage } from "../assets";
+import { useNavigate } from "react-router-dom";
 
 export function OneForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [passwordShown, setPasswordShown] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    navigate("/extra-info");
+  };
 
   return (
     <div className="mainContainer">
@@ -52,7 +61,9 @@ export function OneForm() {
           <a>Create Account</a>
           <a>Forgot Password?</a>
         </div>
-        <button className="connectButton">Connect</button>
+        <button className="connectButton" onClick={handleSubmit}>
+          Connect
+        </button>
       </div>
     </div>
   );
