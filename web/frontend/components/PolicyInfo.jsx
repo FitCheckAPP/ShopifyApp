@@ -2,7 +2,7 @@ import "./main.css";
 import { useState } from "react";
 
 import { logoImage } from "../assets";
-import { Checkbox, Button } from "@shopify/polaris";
+import { Button } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 
 export function PolicyInfo() {
@@ -20,7 +20,7 @@ export function PolicyInfo() {
   };
 
   const handleSubmit = () => {
-    console.log("Idfk");
+    navigate("/dashboard");
   };
 
   return (
@@ -48,33 +48,18 @@ export function PolicyInfo() {
             I allow permission to manage orders and access promotional codes via
             API access
           </label>
-          <Checkbox
-            type="checkbox"
-            checked={permsBox}
-            onClick={(e) => {
-              e.preventDefault();
-              setPermsBox(!permsBox);
-            }}
-          />
+          <input type="checkbox" onClick={() => setPermsBox(!permsBox)} />
         </div>
         <div className="inputContainer">
           <label>
             I agree to a 10% commission rate on all Sales Before Returns
           </label>
-          <Checkbox
-            type="checkbox"
-            checked={comBox}
-            onClick={(e) => {
-              e.preventDefault();
-              setComBox(!comBox);
-            }}
-          />
+          <input type="checkbox" onClick={() => setComBox(!comBox)} />
         </div>
         <div className="extActions">
           <Button
             size="large"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               handleBack();
             }}
           >
@@ -83,10 +68,11 @@ export function PolicyInfo() {
 
           <Button
             size="large"
-            primary={permsBox && comBox ? "true" : "false"}
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit();
+            primary={permsBox && comBox ? true : false}
+            onClick={() => {
+              if (permsBox && comBox) {
+                handleSubmit();
+              }
             }}
           >
             submit
