@@ -151,8 +151,13 @@
   border-bottom: black solid 0.03rem;
 }
 
+.row div {
+  padding: 0.3rem;
+  width: 20%;
+}
+
 .totalInfo {
-  width: 17vw;
+  width: 14vw;
 
   font-weight: 800;
   font-size: 1.3rem;

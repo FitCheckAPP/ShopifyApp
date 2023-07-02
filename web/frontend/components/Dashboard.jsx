@@ -13,6 +13,7 @@ export function Dashboard() {
 
   const [productList, setProductList] = useState([
     { name: "Jeans", variant: "clothing", SKUnum: 0, sold: 10, total: 376 },
+    { name: "Shirts", variant: "idfk", SKUnum: 34857, sold: 13, total: 2 },
   ]);
 
   const [totalSold, setTotalSold] = useState(0);
@@ -87,9 +88,9 @@ export function Dashboard() {
           </div>
           <div className="row" style={{ backgroundColor: "#ECECEC" }}>
             <div>Totals</div>
-            <div className="totalInfo">
-              <div>{totalSold}</div>
-              <div>{"$ " + total}</div>
+            <div className="totalInfo" style={{ width: "40%" }}>
+              <div style={{ width: "20%" }}>{totalSold}</div>
+              <div style={{ width: "20%" }}>{"$ " + total}</div>
             </div>
           </div>
           {productList.map((element, index) => {
