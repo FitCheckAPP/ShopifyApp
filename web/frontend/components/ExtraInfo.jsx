@@ -3,7 +3,7 @@ import "./main.css";
 import { logoImage } from "../assets";
 import { useState } from "react";
 
-import { Button } from "@shopify/polaris";
+import { Button, TextField, Select } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 
 export function ExtraInfo() {
@@ -31,70 +31,67 @@ export function ExtraInfo() {
       <div className="formContainer">
         <img src={logoImage} style={{ width: "15vw", height: "10vh" }} />
         <div className="inputContainer">
-          <label>Official Company Name</label>
-          <br />
-          <input
+          <TextField
+            value={name}
+            label="Official Company Name"
             type="text"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e)}
             style={{ width: "55vw", height: "6vh" }}
           />
         </div>
         <div className="inputContainer">
-          <label>Store Name</label>
-          <br />
-          <input
+          <TextField
+            label="Store Name"
+            value={store}
             type="text"
-            onChange={(e) => setStore(e.target.value)}
-            style={{ width: "55vw", height: "6vh" }}
-          />
-        </div>
-
-        <div className="inputContainer">
-          <label>Store Website URL</label>
-          <br />
-          <input
-            type="text"
-            onChange={(e) => setStoreURL(e.target.value)}
+            onChange={(e) => setStore(e)}
             style={{ width: "55vw", height: "6vh" }}
           />
         </div>
 
         <div className="inputContainer">
-          <label>Store Location</label>
-          <br />
-          <input
+          <TextField
+            label="Store Website URL"
+            value={storeURL}
             type="text"
-            onChange={(e) => setStoreLocation(e.target.value)}
+            onChange={(e) => setStoreURL(e)}
             style={{ width: "55vw", height: "6vh" }}
           />
         </div>
 
         <div className="inputContainer">
-          <label>Do You Ship to the United States?</label>
-          <br />
-          <select
-            type="select"
+          <TextField
+            value={storeLocation}
+            label="Store Location"
+            type="text"
+            onChange={(e) => setStoreLocation(e)}
+            style={{ width: "55vw", height: "6vh" }}
+          />
+        </div>
+
+        <div className="inputContainer">
+          <Select
+            label="Do You Ship to the United States?"
+            value={shippingQ}
             onChange={(e) => {
-              setShippingQ(e.target.value);
-              setAnsweredQ(true);
+              setShippingQ(e);
             }}
+            options={[
+              { label: "Yes", value: "Yes" },
+              { label: "No", value: "No" },
+            ]}
             style={{ width: "55vw", height: "6vh" }}
-          >
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
+          />
         </div>
 
-        <div
-          className="inputContainer"
-          style={shippingQ == "No" && answeredQ ? {} : { display: "none" }}
-        >
-          <label>If you ship elsewhere, enter the location(s) here</label>
-          <br />
-          <textarea
+        <div className="inputContainer">
+          <TextField
+            label="If you ship elsewhere, enter the location(s) here"
             type="text"
-            onChange={(e) => setOtherLoc(e.target.value)}
-            style={{ width: "55vw", height: "24vh", fontSize: "1.1rem" }}
+            onChange={(e) => setOtherLoc(e)}
+            multiline={2}
+            value={otherLoc}
+            style={{ width: "55vw", height: "10vh", fontSize: "1.1rem" }}
           />
         </div>
         <div className="extActions">

@@ -5,6 +5,8 @@ import { BiShow } from "react-icons/bi";
 import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
 
+import { TextField } from "@shopify/polaris";
+
 export function OneForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +21,8 @@ export function OneForm() {
     navigate("/extra-info");
   };
 
+  const validInput = email && password;
+
   return (
     <div className="mainContainer">
       <p>Welcome to FIT CHQ Connect</p>
@@ -30,21 +34,20 @@ export function OneForm() {
       <div className="formContainer">
         <img src={logoImage} />
         <div className="inputContainer">
-          <label>
-            <strong>Email address</strong>
-          </label>
-          <br />
-          <input type="text" onChange={(e) => setEmail(e.target.value)} />
+          <TextField
+            label="Email Address"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e)}
+          />
         </div>
         <div className="inputContainer">
-          <label>
-            <strong>Password</strong>
-          </label>
-          <br />
           <div className="passwordInputContainer">
-            <input
+            <TextField
+              label="Password"
               type={passwordShown ? "text" : "password"}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e)}
             />
             <BiShow
               className="passwordIcon"
@@ -61,7 +64,15 @@ export function OneForm() {
           <a>Create Account</a>
           <a>Forgot Password?</a>
         </div>
-        <button className="connectButton" onClick={handleSubmit}>
+        <button
+          className="connectButton"
+          style={
+            validInput
+              ? { backgroundColor: "black" }
+              : { backgroundColor: "rgba(0, 0, 0, 0.5)" }
+          }
+          onClick={validInput ? handleSubmit : ""}
+        >
           Connect
         </button>
       </div>

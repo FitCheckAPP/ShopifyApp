@@ -13,11 +13,15 @@ export function Dashboard() {
 
   const [productList, setProductList] = useState([
     { name: "Jeans", variant: "clothing", SKUnum: 0, sold: 10, total: 376 },
-    { name: "Shirts", variant: "idfk", SKUnum: 34857, sold: 13, total: 2 },
+    { name: "Shirts", variant: "", SKUnum: 34857, sold: 13, total: 2 },
   ]);
 
   const [totalSold, setTotalSold] = useState(0);
   const [total, setTotal] = useState(0);
+
+  const handleSubmit = () => {
+    fetch();
+  };
 
   return (
     <div className="mainContainer">
