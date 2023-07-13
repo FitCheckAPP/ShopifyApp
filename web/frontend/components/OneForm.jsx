@@ -49,15 +49,14 @@ export function OneForm() {
               value={password}
               onChange={(e) => setPassword(e)}
             />
-            <BiShow
-              className="passwordIcon"
-              onClick={(e) => {
-                e.preventDefault();
-                setPasswordShown(!passwordShown);
-              }}
-              color="rgba(0, 0, 0, 0.5)"
-              size={25}
-            />
+            <div className="passwordIconContainer">
+              <BiShow
+                className="passwordIcon"
+                onClick={() => setPasswordShown(!passwordShown)}
+                color="rgba(0, 0, 0, 0.5)"
+                size={25}
+              />
+            </div>
           </div>
         </div>
         <div className="extActions">
@@ -71,7 +70,7 @@ export function OneForm() {
               ? { backgroundColor: "black" }
               : { backgroundColor: "rgba(0, 0, 0, 0.5)" }
           }
-          onClick={validInput ? handleSubmit : ""}
+          onClick={validInput ? handleSubmit : console.log("Must be valid")}
         >
           Connect
         </button>
