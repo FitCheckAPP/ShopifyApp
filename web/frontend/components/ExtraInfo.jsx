@@ -12,8 +12,11 @@ export function ExtraInfo() {
   const [storeURL, setStoreURL] = useState("");
   const [storeLocation, setStoreLocation] = useState("");
   const [shippingQ, setShippingQ] = useState(false);
-  const [answeredQ, setAnsweredQ] = useState(false);
   const [otherLoc, setOtherLoc] = useState("");
+
+  const [errorText, setErrorText] = useState("");
+
+  const validInput = name && store && storeURL && storeLocation;
 
   const navigate = useNavigate();
 
@@ -27,16 +30,21 @@ export function ExtraInfo() {
 
   return (
     <div className="mainContainer">
-      <h1>Store Information</h1>
       <div className="formContainer">
-        <img src={logoImage} style={{ width: "15vw", height: "10vh" }} />
+        <div className="progressBarContainer">
+          <div
+            className="Bar"
+            style={{ animation: "width25 .7s ease", width: "25%" }}
+          ></div>
+        </div>
+        <h1 style={{ fontSize: "2rem" }}>Store Information</h1>
         <div className="inputContainer">
           <TextField
             value={name}
             label="Official Company Name"
             type="text"
             onChange={(e) => setName(e)}
-            style={{ width: "55vw", height: "6vh" }}
+            error={errorText}
           />
         </div>
         <div className="inputContainer">
@@ -45,7 +53,7 @@ export function ExtraInfo() {
             value={store}
             type="text"
             onChange={(e) => setStore(e)}
-            style={{ width: "55vw", height: "6vh" }}
+            error={errorText}
           />
         </div>
 
@@ -55,7 +63,8 @@ export function ExtraInfo() {
             value={storeURL}
             type="text"
             onChange={(e) => setStoreURL(e)}
-            style={{ width: "55vw", height: "6vh" }}
+            style={{ width: "55vw" }}
+            error={errorText}
           />
         </div>
 
@@ -65,7 +74,8 @@ export function ExtraInfo() {
             label="Store Location"
             type="text"
             onChange={(e) => setStoreLocation(e)}
-            style={{ width: "55vw", height: "6vh" }}
+            style={{ width: "55vw" }}
+            error={errorText}
           />
         </div>
 
@@ -80,18 +90,18 @@ export function ExtraInfo() {
               { label: "Yes", value: "Yes" },
               { label: "No", value: "No" },
             ]}
-            style={{ width: "55vw", height: "6vh" }}
+            style={{ width: "55vw" }}
           />
         </div>
 
-        <div className="inputContainer">
+        <div className="inputContainer" style={{ width: "40vw" }}>
           <TextField
             label="If you ship elsewhere, enter the location(s) here"
             type="text"
             onChange={(e) => setOtherLoc(e)}
             multiline={2}
             value={otherLoc}
-            style={{ width: "55vw", height: "10vh", fontSize: "1.1rem" }}
+            style={{ width: "55vw", fontSize: "1.1rem" }}
           />
         </div>
         <div className="extActions">
@@ -109,7 +119,11 @@ export function ExtraInfo() {
             primary="true"
             onClick={(e) => {
               e.preventDefault();
-              handleSubmit();
+              if (validInput) {
+                handleSubmit();
+              } else {
+                setErrorText("All fields required");
+              }
             }}
           >
             next

@@ -116,8 +116,13 @@
 .doubleInput {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-direction: center;
+
+  width: 55vw;
+  height: 10vh;
+}
+
+.doubleInput input {
+  height: 7vh;
 }
 
 .infoContainer {
@@ -181,8 +186,42 @@
 
   font-weight: 800;
   font-size: 1.3rem;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.progressBarContainer {
+  width: 62vw;
+  height: 3vh;
+
+  padding-bottom: 0.5vh;
+
+  border-top-left-radius: 1.5rem;
+
+  display: flex;
+}
+
+.Bar {
+  background-color: rgba(0, 122, 92, 0.8);
+
+  border-top-left-radius: 1.5rem;
+}
+
+@keyframes width25 {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 25%;
+  }
+}
+
+@keyframes width50 {
+  from {
+    width: 25%;
+  }
+  to {
+    width: 50%;
+  }
 }
