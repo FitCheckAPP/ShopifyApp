@@ -225,3 +225,21 @@
     width: 50%;
   }
 }
+
+@keyframes width75 {
+  from {
+    width: 50%;
+  }
+  to {
+    width: 75%;
+  }
+}
+
+@keyframes width100 {
+  from {
+    width: 75%;
+  }
+  to {
+    width: 100%;
+  }
+}

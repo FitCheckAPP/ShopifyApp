@@ -1,15 +1,21 @@
 import "./main.css";
 import { useState } from "react";
 
-import { logoImage } from "../assets";
-import { Button } from "@shopify/polaris";
+import { Button, TextField, Checkbox } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 export function PolicyInfo() {
   const navigate = useNavigate();
 
-  const [permsBox, setPermsBox] = useState(false);
-  const [comBox, setComBox] = useState(false);
+  const [privacyURL, setPrivacyURL] = useState("");
+  const [termsURL, setTermsURL] = useState("");
+  const [shippingURL, setShippingURL] = useState("");
+  const [returnsURL, setReturnsURL] = useState("");
+
+  const [agreed, setAgreed] = useState(false);
+
+  const [errorText, setErrorText] = useState("");
 
   const handleBack = () => {
     navigate("/legal-info");
@@ -20,42 +26,77 @@ export function PolicyInfo() {
   };
 
   const handleSubmit = () => {
-    navigate("/dashboard");
+    navigate("/form-finished");
   };
 
   return (
     <div className="mainContainer">
       <div className="formContainer">
-        <img src={logoImage} style={{ width: "15vw", height: "10vh" }} />
-        <div className="inputContainer">
-          <label>Privacy Policy:</label>
-          <a>Privacy Policy Goes Here</a>
+        <div className="progressBarContainer">
+          <div
+            className="Bar"
+            style={{ animation: "width75 .7s ease", width: "75%" }}
+          ></div>
         </div>
-        <div className="inputContainer">
-          <label>Terms and Conditions:</label>
-          <a>Terms and Conditions Goes Here</a>
+        <h1 style={{ fontSize: "2rem" }}>Other Legal Stuff</h1>
+        <div className="doubleInput">
+          <div style={{ width: "25vw" }}>
+            <TextField
+              value={privacyURL}
+              label="Privacy Policy URL"
+              type="text"
+              onChange={(e) => setPrivacyURL(e)}
+              error={errorText}
+            />
+          </div>
+
+          <div style={{ width: "25vw" }}>
+            <TextField
+              value={termsURL}
+              label="Terms and Conditions URL"
+              type="text"
+              onChange={(e) => setTermsURL(e)}
+              error={errorText}
+            />
+          </div>
         </div>
-        <div className="inputContainer">
-          <label>Shipping Info:</label>
-          <a>Shipping Info Goes Here</a>
+        <div className="doubleInput">
+          <div style={{ width: "25vw" }}>
+            <TextField
+              value={shippingURL}
+              label="Shipping Info URL"
+              type="text"
+              onChange={(e) => setShippingURL(e)}
+              error={errorText}
+            />
+          </div>
+
+          <div style={{ width: "25vw" }}>
+            <TextField
+              value={returnsURL}
+              label="Returns Info URL"
+              type="text"
+              onChange={(e) => setReturnsURL(e)}
+              error={errorText}
+            />
+          </div>
         </div>
-        <div className="inputContainer">
-          <label>Returns Info:</label>
-          <a>Returns Info Goes Here</a>
+
+        <div style={{ width: "88%" }}>
+          <h1 style={{ fontSize: "1rem" }}>Terms and Conditions:</h1>
+          <ol>
+            <li>You agree to our terms and conditions and stuff (list here)</li>
+          </ol>
         </div>
-        <div className="inputContainer">
-          <label>
-            I allow permission to manage orders and access promotional codes via
-            API access
-          </label>
-          <input type="checkbox" onClick={() => setPermsBox(!permsBox)} />
-        </div>
-        <div className="inputContainer">
-          <label>
-            I agree to a 10% commission rate on all Sales Before Returns
-          </label>
-          <input type="checkbox" onClick={() => setComBox(!comBox)} />
-        </div>
+
+        <Checkbox
+          label="I agree to the Terms of Service."
+          checked={agreed}
+          onChange={(e) => {
+            setAgreed(!agreed);
+          }}
+        />
+
         <div className="extActions">
           <Button
             size="large"
@@ -68,11 +109,15 @@ export function PolicyInfo() {
 
           <Button
             size="large"
-            primary={permsBox && comBox ? true : false}
+            primary={agreed ? true : false}
             onClick={() => {
-              if (permsBox && comBox) {
-                handleSubmit();
+              const result = window.confirm(
+                "Once you click submit, there isn't going back. Make sure you have all your info correct."
+              );
+              if (!result) {
+                return;
               }
+              handleSubmit();
             }}
           >
             submit
