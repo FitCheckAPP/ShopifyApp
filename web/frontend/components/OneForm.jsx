@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./main.css";
 
 import { BiShow } from "react-icons/bi";
+import { RiCheckboxCircleFill, RiErrorWarningFill } from "react-icons/ri";
 import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
 
@@ -13,24 +14,29 @@ export function OneForm() {
 
   const [passwordShown, setPasswordShown] = useState(false);
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Do request here
+
     navigate("/extra-info");
   };
 
-  const validInput = email && password;
+  const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+    email
+  );
+
+  const validInput = validEmail && password;
 
   return (
     <div className="mainContainer">
       <p>Welcome to FIT CHQ Connect</p>
-      <br />
-      <p>
-        Sign in or create a FIT CHQ account to continue with the application
-        process.
-      </p>
+
       <div className="formContainer">
         <img src={logoImage} />
         <div className="inputContainer">
@@ -39,7 +45,24 @@ export function OneForm() {
             type="text"
             value={email}
             onChange={(e) => setEmail(e)}
+            placeholder="Enter valid email address here..."
+            error={emailError}
           />
+          <div className="emailIconContainer">
+            {validEmail ? (
+              <RiCheckboxCircleFill
+                className="emailIcon"
+                color="rgba(0, 100, 0, 1)"
+                size={25}
+              />
+            ) : (
+              <RiErrorWarningFill
+                className="emailIcon"
+                color="rgba(139, 0, 0, 1)"
+                size={25}
+              />
+            )}
+          </div>
         </div>
         <div className="inputContainer">
           <div className="passwordInputContainer">
@@ -48,12 +71,14 @@ export function OneForm() {
               type={passwordShown ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e)}
+              placeholder="Enter password here..."
+              error={passwordError}
             />
             <div className="passwordIconContainer">
               <BiShow
                 className="passwordIcon"
                 onClick={() => setPasswordShown(!passwordShown)}
-                color="rgba(0, 0, 0, 0.5)"
+                color="rgba(0, 0, 0, 1)"
                 size={25}
               />
             </div>
@@ -70,7 +95,15 @@ export function OneForm() {
               ? { backgroundColor: "black" }
               : { backgroundColor: "rgba(0, 0, 0, 0.5)" }
           }
-          onClick={validInput ? handleSubmit : console.log("Must be valid")}
+          onClick={
+            validInput
+              ? handleSubmit
+              : () => {
+                  validEmail
+                    ? setPasswordError("Password is required")
+                    : setEmailError("Type a valid email");
+                }
+          }
         >
           Connect
         </button>

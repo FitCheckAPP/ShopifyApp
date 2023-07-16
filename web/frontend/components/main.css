@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Bacasime+Antique&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
 * {
-  font-family: "Bacasime Antique", serif;
+  font-family: "Roboto", sans-serif;
   z-index: 1;
 }
 
@@ -63,6 +63,18 @@
   top: 70%;
   right: 8px;
   transform: translateY(-50%);
+
+  z-index: 10;
+}
+
+.emailIconContainer {
+  position: relative;
+}
+
+.emailIconContainer {
+  position: absolute;
+  top: 45.5%;
+  right: 25.3%;
 
   z-index: 10;
 }
