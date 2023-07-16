@@ -6,21 +6,19 @@ import { RxAvatar } from "react-icons/rx";
 import "./main.css";
 import { useState } from "react";
 
+import { LegacyCard, DataTable } from "@shopify/polaris";
+
 export function Dashboard() {
   const [revenue, setRevenue] = useState(0);
   const [orders, setOrders] = useState(0);
   const [shopVisits, setShopVisits] = useState(0);
 
-  const [productList, setProductList] = useState([
-    { name: "Jeans", variant: "clothing", SKUnum: 0, sold: 10, total: 376 },
-    { name: "Shirts", variant: "", SKUnum: 34857, sold: 13, total: 2 },
+  const [orderInfo, setOrderInfo] = useState([
+    ["Label", "Label", 1233451943, 250, "$4,290,876"],
   ]);
 
-  const [totalSold, setTotalSold] = useState(0);
-  const [total, setTotal] = useState(0);
-
   const handleSubmit = () => {
-    fetch();
+    // fetch();
   };
 
   return (
@@ -80,35 +78,22 @@ export function Dashboard() {
           {shopVisits}
         </div>
       </div>
-
-      <div className="orderContainer">
-        <div className="productList">
-          <div className="row">
-            <div>Products</div>
-            <div>Variant</div>
-            <div>SKU Number</div>
-            <div>Units sold</div>
-            <div>Total</div>
-          </div>
-          <div className="row" style={{ backgroundColor: "#ECECEC" }}>
-            <div>Totals</div>
-            <div className="totalInfo" style={{ width: "40%" }}>
-              <div style={{ width: "20%" }}>{totalSold}</div>
-              <div style={{ width: "20%" }}>{"$ " + total}</div>
-            </div>
-          </div>
-          {productList.map((element, index) => {
-            return (
-              <div key={index} className="row">
-                <div>{element.name}</div>
-                <div>{element.variant}</div>
-                <div>{element.SKUnum}</div>
-                <div>{element.sold}</div>
-                <div>{element.total}</div>
-              </div>
-            );
-          })}
-        </div>
+      <div style={{ width: "65vw", fontWeight: "lighter" }}>
+        <LegacyCard title="Order Information">
+          <DataTable
+            columnContentTypes={["text", "text", "numeric", "numeric", "text"]}
+            headings={[
+              "Product",
+              "Variant",
+              "SKU Number",
+              "Units Sold",
+              "Total",
+            ]}
+            totals={["", "", "", 255, "$155,830.00"]}
+            rows={orderInfo}
+            sortable={[false, false, true, true, false]}
+          />
+        </LegacyCard>
       </div>
     </div>
   );
