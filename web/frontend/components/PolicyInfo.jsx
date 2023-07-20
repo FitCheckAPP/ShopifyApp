@@ -17,6 +17,8 @@ export function PolicyInfo() {
 
   const [errorText, setErrorText] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleBack = () => {
     navigate("/legal-info");
   };
@@ -26,6 +28,9 @@ export function PolicyInfo() {
   };
 
   const handleSubmit = () => {
+    // Do Fetch Logic Here
+    setIsLoading(true);
+
     navigate("/form-finished");
   };
 
@@ -120,7 +125,7 @@ export function PolicyInfo() {
               handleSubmit();
             }}
           >
-            submit
+            {isLoading ? "Loading..." : "Submit"}
           </Button>
         </div>
       </div>

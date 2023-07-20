@@ -17,12 +17,15 @@ export function OneForm() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Do request here
+    setIsLoading(true);
 
     navigate("/extra-info");
   };
@@ -105,7 +108,7 @@ export function OneForm() {
                 }
           }
         >
-          Connect
+          {isLoading ? "Loading..." : "Connect"}
         </button>
       </div>
     </div>

@@ -20,11 +20,15 @@ export function ExtraInfo() {
 
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState("false");
+
   const handleSave = () => {
     // TODO: Add fetch logic
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
+
     navigate("/legal-info");
   };
 
@@ -126,7 +130,7 @@ export function ExtraInfo() {
               }
             }}
           >
-            next
+            {isLoading ? "Loading..." : "next"}
           </Button>
         </div>
       </div>

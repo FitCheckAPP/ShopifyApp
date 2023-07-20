@@ -6,7 +6,7 @@ import "./index.css";
 
 export default function LegalInfoPage() {
   return (
-    <Page>
+    <Page heading={"Policy Information"}>
       <div id="rootContainer">
         <PolicyInfo />
       </div>

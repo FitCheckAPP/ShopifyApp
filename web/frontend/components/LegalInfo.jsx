@@ -21,6 +21,8 @@ export function LegalInfo() {
 
   const [errorText, setErrorText] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const validInput =
     firstAdd && zip && city && regNum && jurisdiction && region;
 
@@ -29,6 +31,8 @@ export function LegalInfo() {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
+
     navigate("/policy-info");
   };
 
@@ -151,7 +155,7 @@ export function LegalInfo() {
               }
             }}
           >
-            next
+            {isLoading ? "Loading..." : "mext"}
           </Button>
         </div>
       </div>
