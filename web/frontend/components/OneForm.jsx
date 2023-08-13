@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 import { TextField } from "@shopify/polaris";
 
+import { authenticatedFetch } from "@shopify/app-bridge/utilities";
+
+import axios from "axios";
+
 export function OneForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +30,11 @@ export function OneForm() {
 
     // Do request here
     setIsLoading(true);
+
+    const postData = {
+      email: email,
+      password: password,
+    };
 
     navigate("/extra-info");
   };

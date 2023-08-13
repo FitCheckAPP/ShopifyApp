@@ -5,6 +5,8 @@ import { Button, TextField } from "@shopify/polaris";
 import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 export function LegalInfo() {
   const navigate = useNavigate();
 
@@ -33,7 +35,25 @@ export function LegalInfo() {
   const handleSubmit = () => {
     setIsLoading(true);
 
-    navigate("/policy-info");
+    const postData = {
+      firstAdd,
+      secondAdd,
+      zip,
+      city,
+      regNum,
+      jurisdiction,
+      region,
+    };
+
+    axios
+      .post("/api/initInfo/legal", postData)
+      .then((response) => {
+        navigate("/policy-info");
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   const handleBack = () => {
@@ -155,7 +175,7 @@ export function LegalInfo() {
               }
             }}
           >
-            {isLoading ? "Loading..." : "mext"}
+            {isLoading ? "Loading..." : "next"}
           </Button>
         </div>
       </div>

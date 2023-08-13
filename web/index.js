@@ -7,6 +7,8 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 
+import axios from "axios";
+
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
   10
@@ -34,13 +36,97 @@ app.post(
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
 
-app.use("/api/*", shopify.validateAuthenticatedSession());
+// app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
 // ! Routes here
-app.post("/api/login", async (_req, res) => {
-  res.status(200).send("logged in");
+app.get("/api/bulk", async (_req, res) => {
+  try {
+    const session = res.locals.shopify.session;
+    const client = new shopify.api.clients.Graphql({ session });
+
+    const queryString = `{mutation {
+      bulkOperationRunQuery(
+       query: """
+        {
+          products {
+            edges {
+              node {
+                id
+            createdAt
+            updatedAt
+            title
+            handle
+            descriptionHtml
+            productType
+              }
+            }
+          }
+        }
+        """
+      ) {
+        bulkOperation {
+          id
+          status
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }}`;
+
+    const webhookInit = `mutation {
+      webhookSubscriptionCreate(
+        topic: BULK_OPERATIONS_FINISH
+        webhookSubscription: {
+          format: JSON,
+          callbackUrl: "https://12345.ngrok.io/"}
+      ) {
+        userErrors {
+          field
+          message
+        }
+        webhookSubscription {
+          id
+        }
+      }
+    }
+    `;
+
+    const data = await client.query({ data: queryString });
+
+    const webhook = await client.query({ data: webhookInit });
+
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+app.post("/api/initInfo/store", async (_req, res) => {
+  const data = _req.body;
+
+  axios
+    .post("http://localhost:3000/api/brands/application/form/storeInfo", data)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+});
+app.post("/api/initInfo/legal", async (_req, res) => {
+  const data = _req.body;
+
+  axios
+    .post("http://localhost:3000/api/brands/application/form/legalInfo", data)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+});
+app.post("/api/initInfo/policy", async (_req, res) => {
+  const data = _req.body;
+
+  axios
+    .post("http://localhost:3000/api/brands/application/form/policyInfo", data)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
 });
 
 app.use(shopify.cspHeaders());

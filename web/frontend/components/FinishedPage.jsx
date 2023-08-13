@@ -3,7 +3,9 @@ import "./main.css";
 
 import { Button } from "@shopify/polaris";
 
-export function FinishedPage() {
+import "@shopify/shopify-api/adapters/node";
+
+export async function FinishedPage() {
   const navigate = useNavigate();
 
   const handleSubmit = () => {

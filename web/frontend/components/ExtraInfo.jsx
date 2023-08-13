@@ -6,9 +6,11 @@ import { useState } from "react";
 import { Button, TextField, Select } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 export function ExtraInfo() {
-  const [name, setName] = useState("");
-  const [store, setStore] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [storeName, setStoreName] = useState("");
   const [storeURL, setStoreURL] = useState("");
   const [storeLocation, setStoreLocation] = useState("");
   const [shippingQ, setShippingQ] = useState(false);
@@ -16,11 +18,11 @@ export function ExtraInfo() {
 
   const [errorText, setErrorText] = useState("");
 
-  const validInput = name && store && storeURL && storeLocation;
+  const validInput = companyName && storeName && storeURL && storeLocation;
 
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState("false");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = () => {
     // TODO: Add fetch logic
@@ -29,7 +31,24 @@ export function ExtraInfo() {
   const handleSubmit = () => {
     setIsLoading(true);
 
-    navigate("/legal-info");
+    const postData = {
+      companyName,
+      storeName,
+      storeURL,
+      storeLocation,
+      shippingQ,
+      otherLoc,
+    };
+
+    axios
+      .post("/api/initInfo/store", postData)
+      .then((response) => {
+        navigate("/legal-info");
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -44,19 +63,19 @@ export function ExtraInfo() {
         <h1 style={{ fontSize: "2rem" }}>Store Information</h1>
         <div className="inputContainer">
           <TextField
-            value={name}
+            value={companyName}
             label="Official Company Name"
             type="text"
-            onChange={(e) => setName(e)}
+            onChange={(e) => setCompanyName(e)}
             error={errorText}
           />
         </div>
         <div className="inputContainer">
           <TextField
             label="Store Name"
-            value={store}
+            value={storeName}
             type="text"
-            onChange={(e) => setStore(e)}
+            onChange={(e) => setStoreName(e)}
             error={errorText}
           />
         </div>

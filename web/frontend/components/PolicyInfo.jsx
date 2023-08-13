@@ -5,6 +5,8 @@ import { Button, TextField, Checkbox } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
+import axios from "axios";
+
 export function PolicyInfo() {
   const navigate = useNavigate();
 
@@ -31,7 +33,17 @@ export function PolicyInfo() {
     // Do Fetch Logic Here
     setIsLoading(true);
 
-    navigate("/form-finished");
+    const postData = { privacyURL, termsURL, shippingURL, returnsURL };
+
+    axios
+      .post("/api/initInfo/policy", postData)
+      .then((response) => {
+        navigate("/form-finished");
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   return (
