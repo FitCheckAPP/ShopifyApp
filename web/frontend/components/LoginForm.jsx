@@ -12,7 +12,7 @@ import { authenticatedFetch } from "@shopify/app-bridge/utilities";
 
 import axios from "axios";
 
-export function OneForm() {
+export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

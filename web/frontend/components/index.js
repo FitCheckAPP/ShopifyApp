@@ -1,4 +1,4 @@
-export { OneForm } from "./OneForm";
+export { LoginForm } from "./LoginForm";
 export { ExtraInfo } from "./ExtraInfo";
 export { LegalInfo } from "./LegalInfo";
 export { PolicyInfo } from "./PolicyInfo";
