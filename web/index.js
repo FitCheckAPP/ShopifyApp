@@ -134,7 +134,9 @@ app.post("/api/emailExists", async (_req, res) => {
 
   axios
     .post("http://localhost:3000/api/brands/application/form/emailExists", data)
-    .then((response) => res.status(response.status).send())
+    .then((response) => {
+      res.status(response.data.status).send();
+    })
     .catch((error) => console.log(error));
 });
 // ! Email verificaiton
@@ -143,7 +145,7 @@ app.post("/api/emailVerif", async (_req, res) => {
 
   axios
     .post("http://localhost:3000/api/brands/application/form/emailVerif", data)
-    .then((response) => res.status(response.status).send())
+    .then((response) => res.status(response.data.status).send())
     .catch((error) => console.log(error));
 });
 
