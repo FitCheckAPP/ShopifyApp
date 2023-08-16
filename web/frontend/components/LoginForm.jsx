@@ -6,6 +6,7 @@ import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
 
 import { TextField } from "@shopify/polaris";
+import axios from "axios";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,48 @@ export function LoginForm() {
     // Do request here
     setIsLoading(true);
 
-    setVerifWaiting(true);
+    try {
+      // ! POST request to check if email exists
+      axios.post("/api/emailExists", { email }).then((response) => {
+        console.log(response.status);
+        if (response.status == 200) {
+          // Email Exists
+          // ! POST request to verify the email (given that it exists)
+          axios.post("/api/emailVerif", { email }).then((response) => {
+            if (response.status == 200) {
+              setVerifWaiting(true);
+            } else if (400) {
+              // Bad data
+              setEmailError("Please enter a valid input");
+              throw new Error("Please enter a valid input");
+              setIsLoading(false);
+            } else {
+              // Internal Server Error
+              setEmailError("Internal Server Error");
+              throw new Error("Internal Server Error");
+              setIsLoading(false);
+            }
+          });
+        } else if (400) {
+          // Bad data
+          setEmailError("Please enter a valid input");
+          throw new Error("Please enter a valid input");
+          setIsLoading(false);
+        } else if (404) {
+          // Email not found
+          setEmailError("Email not found. Please sign up");
+          throw new Error("Email not found");
+          setIsLoading(false);
+        } else {
+          // Internal Server Error
+          setEmailError("Internal Server Error");
+          throw new Error("Internal Server Error");
+          setIsLoading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(

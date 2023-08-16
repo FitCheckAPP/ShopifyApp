@@ -128,6 +128,24 @@ app.post("/api/initInfo/policy", async (_req, res) => {
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 });
+// ! Checks if the email exists
+app.post("/api/emailExists", async (_req, res) => {
+  const data = _req.body;
+
+  axios
+    .post("http://localhost:3000/api/brands/application/form/emailExists", data)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+});
+// ! Email verificaiton
+app.post("/api/emailVerif", async (_req, res) => {
+  const data = _req.body;
+
+  axios
+    .post("http://localhost:3000/api/brands/application/form/emailVerif", data)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+});
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
