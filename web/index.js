@@ -7,6 +7,9 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 
+import useCreateDomainLink from "./middleware/createDomainLink.js";
+("./middleware/createAccessToken.js");
+
 import axios from "axios";
 
 const PORT = parseInt(
@@ -20,6 +23,7 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
+app.use(express.json());
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -40,7 +44,10 @@ app.post(
 
 app.use(express.json());
 
+useCreateDomainLink(app);
+
 // ! Routes here
+
 app.get("/api/bulk", async (_req, res) => {
   try {
     const session = res.locals.shopify.session;
@@ -128,6 +135,7 @@ app.post("/api/initInfo/policy", async (_req, res) => {
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 });
+
 // ! Checks if the email exists
 app.post("/api/emailExists", async (_req, res) => {
   const data = _req.body;
@@ -139,9 +147,12 @@ app.post("/api/emailExists", async (_req, res) => {
     })
     .catch((error) => console.log(error));
 });
+
 // ! Email verificaiton
 app.post("/api/emailVerif", async (_req, res) => {
   const data = _req.body;
+
+  // Do domain stuff here
 
   axios
     .post("http://localhost:3000/api/brands/application/form/emailVerif", data)

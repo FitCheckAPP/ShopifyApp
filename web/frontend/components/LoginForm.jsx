@@ -8,16 +8,16 @@ import { useNavigate } from "react-router-dom";
 import { TextField } from "@shopify/polaris";
 import axios from "axios";
 
+import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
+
 export function LoginForm() {
   const [email, setEmail] = useState("");
-
   const [emailError, setEmailError] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [verifWaiting, setVerifWaiting] = useState(false);
 
   const navigate = useNavigate();
+  const authenticatedFetch = useAuthenticatedFetch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
