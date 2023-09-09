@@ -8,8 +8,8 @@ import shopify from "./shopify.js";
 
 import GDPRWebhookHandlers from "./gdpr.js";
 
-import useCreateDomainLink from "./middleware/createDomainLink.js";
-("./middleware/createAccessToken.js");
+
+
 
 import axios from "axios";
 
@@ -45,7 +45,7 @@ app.post(
 
 app.use(express.json());
 
-useCreateDomainLink(app);
+
 
 // ! Routes here
 
