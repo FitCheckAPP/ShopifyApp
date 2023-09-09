@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./main.css";
 
+import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
 import { RiCheckboxCircleFill, RiErrorWarningFill } from "react-icons/ri";
 import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { TextField } from "@shopify/polaris";
 import axios from "axios";
 
-import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
+
+
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -32,8 +34,10 @@ export function LoginForm() {
         .then((response) => {
           // Email Exists
           // ! POST request to verify the email (given that it exists)
-          axios
-            .post("/api/emailVerif", { email })
+          const fetch = authenticatedFetch("/api/emailVerif", { body: JSON.stringify({"email": email}), method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }, })
             .then((response) => {
               setVerifWaiting(true);
             })
@@ -73,6 +77,32 @@ export function LoginForm() {
     } catch (error) {
       console.log(error);
     }
+    // try{
+    //   const fetch = authenticatedFetch('/api/access-token', {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   })
+    //     .then(response => {
+    //       // Handle response
+    //       if (response.ok) {
+    //         // API request successful
+    //         // Add your desired logic here
+    //         console.log('Shop added successfully!');
+    //       } else {
+    //         // API request failed
+    //         // Handle the error
+    //         console.error('Failed to add shop:', response.statusText);
+    //       }
+    //     });
+    // }
+    // catch (error) {
+    //     console.log(error);
+    //   }
+    
+
+
   };
 
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(

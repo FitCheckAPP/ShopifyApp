@@ -5,6 +5,7 @@ import express from "express";
 import serveStatic from "serve-static";
 
 import shopify from "./shopify.js";
+
 import GDPRWebhookHandlers from "./gdpr.js";
 
 import useCreateDomainLink from "./middleware/createDomainLink.js";
@@ -148,14 +149,66 @@ app.post("/api/emailExists", async (_req, res) => {
     .catch((error) => console.log(error));
 });
 
+app.get("api/testDomain", async (_req, res) => {
+  
+  const client = new shopify.api.clients.Graphql({
+    session: res.locals.shopify.session,
+  });
+
+  const shop = await shopify.api.rest.Shop.all({
+    session: res.locals.shopify.session,
+  });
+console.log("shop name")
+console.log(shop.data[0].name)
+  
+});
+
+app.get("/api/access-token", shopify.validateAuthenticatedSession(),async (req, res) => {
+
+  // Session is built by the OAuth process
+  const client = new shopify.api.clients.Graphql({
+      session: res.locals.shopify.session,
+    });
+
+
+
+
+  const storefront_access_token = new shopify.api.rest.StorefrontAccessToken({session: res.locals.shopify.session});
+  storefront_access_token.title = "token";
+  await storefront_access_token.save({
+  update: true,
+  });
+
+  const shop = await shopify.api.rest.Shop.all({
+      session: res.locals.shopify.session,
+    });
+
+  const token = storefront_access_token.access_token;
+
+  });
+
 // ! Email verificaiton
-app.post("/api/emailVerif", async (_req, res) => {
-  const data = _req.body;
-
+app.post("/api/emailVerif", shopify.validateAuthenticatedSession(), async (_req, res) => {
+  
+ 
   // Do domain stuff here
+  const shop = await shopify.api.rest.Shop.all({
+    session: res.locals.shopify.session,
+  });
 
+
+const domain = shop.data[0].domain;
+
+const email = _req.body
+
+console.log("domain")
+console.log(domain)
+console.log("email")
+console.log(email)
+
+const data = {email: email.email, domain: domain};
   axios
-    .post("http://localhost:3000/api/brands/application/form/emailVerif", data)
+    .post("http://localhost:3000/api/brands/application/form/emailVerif", JSON.stringify(data))
     .then((response) => res.status(response.data.status).send())
     .catch((error) => console.log(error));
 });
