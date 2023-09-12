@@ -9,9 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { TextField } from "@shopify/polaris";
 import axios from "axios";
 
-
-
-
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -29,17 +26,33 @@ export function LoginForm() {
 
     try {
       // ! POST request to check if email exists
-      axios
+      await axios
         .post("/api/emailExists", { email })
-        .then((response) => {
+        .then(async (response) => {
           // Email Exists
           // ! POST request to verify the email (given that it exists)
-          const fetch = authenticatedFetch("/api/emailVerif", { body: JSON.stringify({"email": email}), method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }, })
-            .then((response) => {
+          const fetch = await authenticatedFetch("/api/emailVerif", {
+            body: JSON.stringify({ email: email }),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(async (response) => {
               setVerifWaiting(true);
+
+              // ! Post request to get the appstate
+              await axios
+                .post("/api/appState", { email: email })
+                .then((response) => {
+                  const appstate = response.data.appstate;
+
+                  if (appstate == 1) {
+                    navigate("/dashboard");
+                  } else {
+                    navigate("/extra-info");
+                  }
+                });
             })
             .catch((error) => {
               if (error.response.status == 400) {
@@ -100,9 +113,6 @@ export function LoginForm() {
     // catch (error) {
     //     console.log(error);
     //   }
-    
-
-
   };
 
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
