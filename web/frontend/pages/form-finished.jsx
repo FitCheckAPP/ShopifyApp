@@ -4,7 +4,7 @@ import { FinishedPage } from "../components";
 
 import "./index.css";
 
-export default function ExtraInfoPage() {
+export default function FinishedFormPage() {
   return (
     <Page>
       <div id="rootContainer">

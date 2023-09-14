@@ -4,7 +4,7 @@ import "./main.css";
 import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
 import { RiCheckboxCircleFill, RiErrorWarningFill } from "react-icons/ri";
 import { logoImage } from "../assets";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 import { TextField } from "@shopify/polaris";
 import axios from "axios";
@@ -39,7 +39,10 @@ export function LoginForm() {
             },
           })
             .then(async (response) => {
-              navigate("/waiting-verification");
+              navigate({
+                pathname: "/waiting-verification",
+                search: `${createSearchParams({ _email: email })}`,
+              });
             })
             .catch((error) => {
               if (error.response.status == 400) {

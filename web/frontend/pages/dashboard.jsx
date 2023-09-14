@@ -4,7 +4,7 @@ import { Dashboard } from "../components";
 
 import "./index.css";
 
-export default function HomePage() {
+export default function DashboardPage() {
   return (
     <Page>
       <div id="rootContainer">

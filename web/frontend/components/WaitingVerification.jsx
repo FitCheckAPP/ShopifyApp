@@ -1,13 +1,17 @@
 import { React, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export const WaitingVerification = (props) => {
+export function WaitingVerification(props) {
   const navigate = useNavigate();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const email = searchParams.get("_email");
+
   useEffect(() => {
-    axios.post("/api/checkEmailClick").then((response) => {
+    axios.post("/api/checkEmailClick", { email: email }).then((response) => {
       if (response.data.status == 200) {
         if (response.data.appstatus == 1) {
           navigate("/waiting-application");
@@ -26,4 +30,4 @@ export const WaitingVerification = (props) => {
       to check again.
     </div>
   );
-};
+}

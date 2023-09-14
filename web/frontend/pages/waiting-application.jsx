@@ -4,7 +4,7 @@ import { WaitingApplication } from "../components";
 
 import "./index.css";
 
-export default function WaitingApplication() {
+export default function WaitingApplicationPage() {
   return (
     <Page heading={"Going Over Application"}>
       <div id="rootContainer">
