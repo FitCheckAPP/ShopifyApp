@@ -7,7 +7,7 @@ export const WaitingVerification = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.post("http://localhost:3000").then((response) => {
+    axios.post("/api/checkEmailClick").then((response) => {
       if (response.data.status == 200) {
         if (response.data.appstatus == 1) {
           navigate("/waiting-application");

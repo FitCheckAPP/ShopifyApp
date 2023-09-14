@@ -210,12 +210,12 @@ app.post(
 // 1 = applied
 // 2 = accepted
 // ! Get if the token's verified or not
-app.post("/api/getTokenStatus", async (req, res) => {
+app.post("/api/checkEmailClick", async (req, res) => {
   const data = req.body;
 
   axios
     .post(
-      "http://localhost:3000/api/brands/application/form/getTokenStatus",
+      "http://localhost:3000/api/brands/application/auth/checkEmailClick",
       data
     )
     .then((response) =>
