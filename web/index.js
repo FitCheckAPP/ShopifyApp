@@ -195,11 +195,6 @@ app.post(
 
     const email = _req.body;
 
-    console.log("domain");
-    console.log(domain);
-    console.log("email");
-    console.log(email);
-
     const data = { email: email.email, domain: domain };
     axios
       .post(
@@ -211,23 +206,27 @@ app.post(
   }
 );
 
-// ! Get State of Stuff
-app.post("/api/appState", async (req, res) => {
+// 0 = not applied
+// 1 = applied
+// 2 = accepted
+// ! Get if the token's verified or not
+app.post("/api/getTokenStatus", async (req, res) => {
   const data = req.body;
 
   axios
-    .post("http://localhost:3000/api/brands/application/form/appState", data)
+    .post(
+      "http://localhost:3000/api/brands/application/form/getTokenStatus",
+      data
+    )
     .then((response) =>
-      res
-        .json({
-          status: response.data.status,
-          appstate: response.data.appstate,
-        })
-        .send()
+      res.json({
+        status: response.data.status,
+        appstate: response.data.appstate,
+      })
     )
     .catch((error) => {
       console.log(error);
-      res.send(500).send();
+      return res.send(500);
     });
 });
 

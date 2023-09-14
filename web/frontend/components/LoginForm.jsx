@@ -39,20 +39,7 @@ export function LoginForm() {
             },
           })
             .then(async (response) => {
-              setVerifWaiting(true);
-
-              // ! Post request to get the appstate
-              await axios
-                .post("/api/appState", { email: email })
-                .then((response) => {
-                  const appstate = response.data.appstate;
-
-                  if (appstate == 1) {
-                    navigate("/dashboard");
-                  } else {
-                    navigate("/extra-info");
-                  }
-                });
+              navigate("/waiting-verification");
             })
             .catch((error) => {
               if (error.response.status == 400) {
