@@ -12,12 +12,14 @@ export function WaitingVerification(props) {
 
   useEffect(() => {
     axios.post("/api/checkEmailClick", { email: email }).then((response) => {
+      console.log(response);
       if (response.data.status == 200) {
+        console.log(response.data.appstatus);
         if (response.data.appstatus == 1) {
           navigate("/waiting-application");
         } else if (response.data.appstatus == 2) {
           navigate("/dashboard");
-        } else {
+        } else if (response.data.appstatus == 0) {
           navigate("/extra-info");
         }
       }
@@ -26,8 +28,8 @@ export function WaitingVerification(props) {
 
   return (
     <div>
-      You're not verified yet. Please wait a couple seconds and reload the page
-      to check again.
+      Verification email sent. Please refresh the page after clicking the link
+      sent in your email.
     </div>
   );
 }
