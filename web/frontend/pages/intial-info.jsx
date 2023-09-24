@@ -1,14 +1,14 @@
 import { Page } from "@shopify/polaris";
 
-import { ExtraInfo } from "../components";
+import { InitialInfo } from "../components";
 
 import "./index.css";
 
-export default function ExtraInfoPage() {
+export default function InitialInfoPage() {
   return (
     <Page>
       <div id="rootContainer">
-        <ExtraInfo />
+        <InitialInfo />
       </div>
     </Page>
   );

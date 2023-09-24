@@ -17,10 +17,6 @@ export function Dashboard() {
     ["Label", "Label", 1233451943, 250, "$4,290,876"],
   ]);
 
-  const handleSubmit = () => {
-    // fetch();
-  };
-
   return (
     <div className="mainContainer">
       <img
@@ -37,11 +33,6 @@ export function Dashboard() {
       <h1 style={{ fontSize: "3rem", color: "#007F80", paddingBottom: "2rem" }}>
         Dashboard
       </h1>
-      {/* <h2
-        style={{ fontSize: "1rem", color: "#007F80", paddingBottom: ".7rem" }}
-      >
-        Monitor your sales performance
-      </h2> */}
 
       <div className="infoContainer" style={{ paddingBotom: "2rem" }}>
         <div className="infoBlock" style={{ fontSize: "1.5rem" }}>

@@ -80,36 +80,11 @@ export function LoginForm() {
     } catch (error) {
       console.log(error);
     }
-    // try{
-    //   const fetch = authenticatedFetch('/api/access-token', {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //     .then(response => {
-    //       // Handle response
-    //       if (response.ok) {
-    //         // API request successful
-    //         // Add your desired logic here
-    //         console.log('Shop added successfully!');
-    //       } else {
-    //         // API request failed
-    //         // Handle the error
-    //         console.error('Failed to add shop:', response.statusText);
-    //       }
-    //     });
-    // }
-    // catch (error) {
-    //     console.log(error);
-    //   }
   };
 
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
     email
   );
-
-  const validInput = validEmail;
 
   return (
     <div className="mainContainer">
@@ -165,12 +140,12 @@ export function LoginForm() {
             <button
               className="connectButton"
               style={
-                validInput
+                validEmail
                   ? { backgroundColor: "black" }
                   : { backgroundColor: "rgba(0, 0, 0, 0.5)" }
               }
               onClick={(e) => {
-                if (validInput) {
+                if (validEmail) {
                   handleSubmit(e);
                 } else {
                   setEmailError("Please enter a valid email");

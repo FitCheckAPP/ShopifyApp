@@ -1,6 +1,5 @@
 import "./main.css";
 
-import { logoImage } from "../assets";
 import { useState } from "react";
 
 import { Button, TextField, Select } from "@shopify/polaris";
@@ -8,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-export function ExtraInfo() {
+export function InitialInfo() {
   const [companyName, setCompanyName] = useState("");
   const [storeName, setStoreName] = useState("");
   const [storeURL, setStoreURL] = useState("");
@@ -17,12 +16,11 @@ export function ExtraInfo() {
   const [otherLoc, setOtherLoc] = useState("");
 
   const [errorText, setErrorText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validInput = companyName && storeName && storeURL && storeLocation;
 
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = () => {
     // TODO: Add fetch logic

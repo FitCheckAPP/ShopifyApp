@@ -1,5 +1,5 @@
 export { LoginForm } from "./LoginForm";
-export { ExtraInfo } from "./ExtraInfo";
+export { InitialInfo } from "./InitialInfo";
 export { LegalInfo } from "./LegalInfo";
 export { PolicyInfo } from "./PolicyInfo";
 export { Dashboard } from "./Dashboard";

@@ -2,7 +2,6 @@ import "./main.css";
 import { useState } from "react";
 import { Button, TextField } from "@shopify/polaris";
 
-import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -12,24 +11,20 @@ export function LegalInfo() {
 
   const [firstAdd, setFirstAdd] = useState("");
   const [secondAdd, setSecondAdd] = useState("");
-
   const [zip, setZip] = useState(0);
   const [city, setCity] = useState("");
-
   const [regNum, setRegNum] = useState(0);
-
   const [jurisdiction, setJurisdiction] = useState("");
   const [region, setRegion] = useState("");
 
   const [errorText, setErrorText] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const validInput =
     firstAdd && zip && city && regNum && jurisdiction && region;
 
   const handleSave = () => {
-    console.log("Saved");
+    // TODO: Add fetch logic
   };
 
   const handleSubmit = () => {
@@ -57,7 +52,7 @@ export function LegalInfo() {
   };
 
   const handleBack = () => {
-    navigate("/extra-info");
+    navigate("/initial-info");
   };
 
   return (

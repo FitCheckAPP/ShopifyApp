@@ -14,11 +14,9 @@ export function PolicyInfo() {
   const [termsURL, setTermsURL] = useState("");
   const [shippingURL, setShippingURL] = useState("");
   const [returnsURL, setReturnsURL] = useState("");
-
   const [agreed, setAgreed] = useState(false);
 
   const [errorText, setErrorText] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBack = () => {
@@ -30,7 +28,6 @@ export function PolicyInfo() {
   };
 
   const handleSubmit = () => {
-    // Do Fetch Logic Here
     setIsLoading(true);
 
     const postData = { privacyURL, termsURL, shippingURL, returnsURL };
