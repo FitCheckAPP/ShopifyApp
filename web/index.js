@@ -35,158 +35,41 @@ app.post(
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 );
 
-// If you are adding routes outside of the /api path, remember to
-// also add a proxy rule for them in web/frontend/vite.config.js
-
-// app.use("/api/*", shopify.validateAuthenticatedSession());
-
 app.use(express.json());
 
 // ! Routes here
+// ! Form Routes
 
-app.get("/api/bulk", async (_req, res) => {
-  try {
-    const session = res.locals.shopify.session;
-    const client = new shopify.api.clients.Graphql({ session });
-
-    const queryString = `{mutation {
-      bulkOperationRunQuery(
-       query: """
-        {
-          products {
-            edges {
-              node {
-                id
-            createdAt
-            updatedAt
-            title
-            handle
-            descriptionHtml
-            productType
-              }
-            }
-          }
-        }
-        """
-      ) {
-        bulkOperation {
-          id
-          status
-        }
-        userErrors {
-          field
-          message
-        }
-      }
-    }}`;
-
-    const webhookInit = `mutation {
-      webhookSubscriptionCreate(
-        topic: BULK_OPERATIONS_FINISH
-        webhookSubscription: {
-          format: JSON,
-          callbackUrl: "https://12345.ngrok.io/"}
-      ) {
-        userErrors {
-          field
-          message
-        }
-        webhookSubscription {
-          id
-        }
-      }
-    }
-    `;
-
-    const data = await client.query({ data: queryString });
-
-    const webhook = await client.query({ data: webhookInit });
-
-    res.status(200).send(data);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-app.post("/api/initInfo/store", async (_req, res) => {
-  const data = _req.body;
-
-  axios
-    .post("http://localhost:3000/api/brands/application/form/storeInfo", data)
-    .then((response) => console.log(response.data))
-    .catch((error) => console.log(error));
-});
-app.post("/api/initInfo/legal", async (_req, res) => {
-  const data = _req.body;
-
-  axios
-    .post("http://localhost:3000/api/brands/application/form/legalInfo", data)
-    .then((response) => console.log(response.data))
-    .catch((error) => console.log(error));
-});
-app.post("/api/initInfo/policy", async (_req, res) => {
-  const data = _req.body;
-
-  axios
-    .post("http://localhost:3000/api/brands/application/form/policyInfo", data)
-    .then((response) => console.log(response.data))
-    .catch((error) => console.log(error));
-});
-
-// ! Checks if the email exists
-app.post("/api/emailExists", async (_req, res) => {
-  const data = _req.body;
-
-  axios
-    .post("http://localhost:3000/api/brands/application/form/emailExists", data)
-    .then((response) => {
-      res.status(response.data.status).send();
-    })
-    .catch((error) => console.log(error));
-});
-
-app.get("api/testDomain", async (_req, res) => {
-  const client = new shopify.api.clients.Graphql({
-    session: res.locals.shopify.session,
-  });
-
-  const shop = await shopify.api.rest.Shop.all({
-    session: res.locals.shopify.session,
-  });
-  console.log("shop name");
-  console.log(shop.data[0].name);
-});
-
-app.get(
-  "/api/access-token",
+// ! Check if email exists
+app.post(
+  "/api/emailExists",
   shopify.validateAuthenticatedSession(),
-  async (req, res) => {
-    // Session is built by the OAuth process
-    const client = new shopify.api.clients.Graphql({
-      session: res.locals.shopify.session,
-    });
+  async (_req, res) => {
+    const data = _req.body;
 
-    const storefront_access_token = new shopify.api.rest.StorefrontAccessToken({
-      session: res.locals.shopify.session,
-    });
-    storefront_access_token.title = "token";
-    await storefront_access_token.save({
-      update: true,
-    });
-
-    const shop = await shopify.api.rest.Shop.all({
-      session: res.locals.shopify.session,
-    });
-
-    const token = storefront_access_token.access_token;
+    axios
+      .post(
+        "http://localhost:3000/api/brands/shopify/auth/emailExists",
+        JSON.stringify(data)
+      )
+      .then((response) => {
+        return res.status(response.status).send();
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          return res.status(241).send();
+        } else {
+          return res.status(250).send();
+        }
+      });
   }
 );
 
-// ! Email verificaiton
+// ! Email Verification
 app.post(
   "/api/emailVerif",
   shopify.validateAuthenticatedSession(),
   async (_req, res) => {
-    // Do domain stuff here
     const shop = await shopify.api.rest.Shop.all({
       session: res.locals.shopify.session,
     });
@@ -198,37 +81,51 @@ app.post(
     const data = { email: email.email, domain: domain };
     axios
       .post(
-        "http://localhost:3000/api/brands/application/form/emailVerif",
+        "http://localhost:3000/api/brands/shopify/auth/emailVerif",
         JSON.stringify(data)
       )
-      .then((response) => res.status(response.data.status).send())
-      .catch((error) => console.log(error));
+      .then((response) => {
+        return res.status(response.status).send();
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          return res.status(241).send();
+        } else {
+          return res.status(250).send();
+        }
+      });
   }
 );
 
-// 0 = not applied
-// 1 = applied
-// 2 = accepted
 // ! Get if the token's verified or not
-app.post("/api/checkEmailClick", async (req, res) => {
-  const data = req.body;
+app.post(
+  "/api/checkEmailVerify",
+  shopify.validateAuthenticatedSession(),
+  async (_req, res) => {
+    const data = _req.body;
 
-  axios
-    .post(
-      "http://localhost:3000/api/brands/application/auth/checkEmailClick",
-      data
-    )
-    .then((response) =>
-      res.json({
-        status: response.data.status,
-        appstate: response.data.appstate,
+    axios
+      .post(
+        "http://localhost:3000/api/brands/shopify/auth/checkEmailVerify",
+        JSON.stringify(data)
+      )
+      .then((response) => {
+        return res
+          .json({
+            status: response.status,
+            appstate: response.data.appstate,
+          })
+          .send();
       })
-    )
-    .catch((error) => {
-      console.log(error);
-      return res.send(500);
-    });
-});
+      .catch((error) => {
+        if (error.response.status == 401) {
+          return res.json({ status: 241 }).send();
+        } else {
+          return res.json({ status: 250 }).send();
+        }
+      });
+  }
+);
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));

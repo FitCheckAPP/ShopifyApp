@@ -7,7 +7,6 @@ import { logoImage } from "../assets";
 import { useNavigate, createSearchParams } from "react-router-dom";
 
 import { TextField } from "@shopify/polaris";
-import axios from "axios";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -26,12 +25,26 @@ export function LoginForm() {
 
     try {
       // ! POST request to check if email exists
-      await axios
-        .post("/api/emailExists", { email })
+      await authenticatedFetch("/api/emailExists", {
+        body: JSON.stringify({ email: email }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
         .then(async (response) => {
-          // Email Exists
+          if (response.status == 241) {
+            setEmailError("Email not found");
+            setIsLoading(false);
+            return;
+          } else if (response.status == 250) {
+            alert("Something went wrong. Please try again later.");
+            setIsLoading(false);
+            return;
+          }
+
           // ! POST request to verify the email (given that it exists)
-          const fetch = await authenticatedFetch("/api/emailVerif", {
+          await authenticatedFetch("/api/emailVerif", {
             body: JSON.stringify({ email: email }),
             method: "POST",
             headers: {
@@ -39,43 +52,31 @@ export function LoginForm() {
             },
           })
             .then(async (response) => {
+              if (response.status == 241) {
+                setEmailError("Email not found");
+                setIsLoading(false);
+                return;
+              } else if (response.status == 250) {
+                alert("Something went wrong. Please try again later.");
+                setIsLoading(false);
+                return;
+              }
+
               navigate({
                 pathname: "/waiting-verification",
                 search: `${createSearchParams({ _email: email })}`,
               });
             })
             .catch((error) => {
-              if (error.response.status == 400) {
-                // Bad data
-                setEmailError("Please enter a valid input. email verif");
-                setIsLoading(false);
-                throw new Error("Please enter a valid input. email verif");
-              } else {
-                // Internal Server Error
-                setEmailError("Error Sending Email");
-                setIsLoading(false);
-                throw new Error("Error Sending Email");
-              }
+              alert("Something went wrong...");
+              setIsLoading(false);
+              return;
             });
         })
-
         .catch((error) => {
-          if (error.response.status == 400) {
-            // Bad data
-            setEmailError("Please enter a valid input. email exists");
-            setIsLoading(false);
-            throw new Error("Please enter a valid input. email exists ");
-          } else if (error.response.status == 404) {
-            // Email not found
-            setEmailError("Email not found. Please sign up");
-            setIsLoading(false);
-            throw new Error("Email not found");
-          } else {
-            // Internal Server Error
-            setEmailError("Internal Server Error");
-            setIsLoading(false);
-            throw new Error("Internal Server Error");
-          }
+          alert("Something went wrong...");
+          setIsLoading(false);
+          return;
         });
     } catch (error) {
       console.log(error);

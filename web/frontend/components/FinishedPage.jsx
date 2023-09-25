@@ -8,9 +8,9 @@ import "@shopify/shopify-api/adapters/node";
 export async function FinishedPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    navigate("/dashboard");
-  };
+  // const handleSubmit = () => {
+  //   navigate("/dashboard");
+  // };
 
   return (
     <div className="mainContainer">
@@ -39,8 +39,8 @@ export async function FinishedPage() {
           }}
         >
           You'll be notified of our decision via the email provided and can
-          check your application status either here or by logging into your FIT
-          CHQ account @ www.fitchq.ai/brands.
+          check your application status either by logging into the app again or
+          by logging into your FIT CHQ account @ www.fitchq.ai/brands.
         </p>
 
         <p
@@ -54,7 +54,7 @@ export async function FinishedPage() {
           Currently, we are accepting brands on a rolling basis.
         </p>
 
-        <div className="extActions" style={{ width: "8vw" }}>
+        {/* <div className="extActions" style={{ width: "8vw" }}>
           <Button
             size="large"
             primary={true}
@@ -65,7 +65,7 @@ export async function FinishedPage() {
           >
             Dashboard
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
