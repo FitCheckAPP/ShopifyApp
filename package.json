@@ -16,7 +16,8 @@
     "@shopify/cli": "3.46.5",
     "@shopify/shopify-api": "^7.5.0",
     "axios": "^1.4.0",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "socket.io-client": "^4.7.2"
   },
   "author": "praneethotthi",
   "private": true,

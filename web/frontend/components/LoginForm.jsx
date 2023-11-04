@@ -5,12 +5,13 @@ import { useAuthenticatedFetch } from "../hooks/useAuthenticatedFetch";
 import { RiCheckboxCircleFill, RiErrorWarningFill } from "react-icons/ri";
 import { logoImage } from "../assets";
 import { useNavigate } from "react-router-dom";
-
+import { io } from "socket.io-client";
 import { TextField } from "@shopify/polaris";
 import axios from "axios";
 
 
 
+const socket = io("localhost://4000");
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -20,6 +21,19 @@ export function LoginForm() {
 
   const navigate = useNavigate();
   const authenticatedFetch = useAuthenticatedFetch();
+
+
+  socket.on("connect", () => {
+    console.log("connected");
+  });
+
+  socket.on("disconnect", () => {
+    console.log("disconnected");
+  });
+
+  socket.on("message", (message) => {
+    console.log(message);
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -30,8 +30,15 @@ export function PolicyInfo() {
   };
 
   const handleSubmit = () => {
-    // Do Fetch Logic Here
+    
+    
+
     setIsLoading(true);
+
+    axios.post("/api/access-token").catch((error) => {
+      console.log(error);
+    }
+    );
 
     const postData = { privacyURL, termsURL, shippingURL, returnsURL };
 
@@ -44,6 +51,8 @@ export function PolicyInfo() {
         console.log(error);
         setIsLoading(false);
       });
+
+      
   };
 
   return (
